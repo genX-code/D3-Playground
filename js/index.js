@@ -1,0 +1,10 @@
+let svg = d3.select("#sketchpad")
+  .append("svg")
+  .attr("width", 600)
+  .attr("height", 600)
+
+svg.append("circle")
+  .attr("cx", 150)
+  .attr("cy", 200)
+  .attr("r", 100)
+  .attr("fill", "blue")
