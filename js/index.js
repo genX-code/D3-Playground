@@ -7,7 +7,6 @@ d3.json('data.json')
   .then(data => {
     
     let value = data.map(item => item.value);
-    console.log(d3.extent(value));
     let x = d3.scaleBand().domain(data.map(d => d.name)).range([0, 800]).paddingInner(0.3);
     let y = d3.scaleLinear().domain(d3.extent(value)).range([0, 800]);
 
