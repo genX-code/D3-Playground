@@ -1,129 +1,51 @@
-let dummydata = [
-  {
-    receive_date: "2013-11-04",
-    responses: "2"
-    },
-    {
-    receive_date: "2013-11-05",
-    responses: "8668"
-    },
-    {
-    receive_date: "2013-11-06",
-    responses: "22297"
-    },
-    {
-    receive_date: "2013-11-07",
-    responses: "2491"
-    },
-    {
-    receive_date: "2013-11-08",
-    responses: "504"
-    },
-    {
-    receive_date: "2013-11-09",
-    responses: "641"
-    },
-    {
-    receive_date: "2013-11-10",
-    responses: "1232"
-    },
-    {
-    receive_date: "2013-11-11",
-    responses: "360"
-    },
-    {
-    receive_date: "2013-11-12",
-    responses: "337"
-    },
-    {
-    receive_date: "2013-11-13",
-    responses: "121"
-    },
-    {
-    receive_date: "2013-11-14",
-    responses: "110"
-    },
-    {
-    receive_date: "2013-11-15",
-    responses: "178"
-    },
-    {
-    receive_date: "2013-11-16",
-    responses: "96"
-    },
-    {
-    receive_date: "2013-11-17",
-    responses: "175"
-    },
-    {
-    receive_date: "2013-11-18",
-    responses: "124"
-    },
-    {
-    receive_date: "2013-11-19",
-    responses: "75"
-    },
-    {
-    receive_date: "2013-11-20",
-    responses: "38"
-    },
-    {
-    receive_date: "2013-11-21",
-    responses: "40"
-    },
-    {
-    receive_date: "2013-11-22",
-    responses: "221"
-    },
-    {
-    receive_date: "2013-11-23",
-    responses: "54"
-    },
-    {
-    receive_date: "2013-11-24",
-    responses: "34"
-    },
-    {
-    receive_date: "2013-11-25",
-    responses: "38"
-    },
-    {
-    receive_date: "2013-11-26",
-    responses: "24"
-    },
-    {
-    receive_date: "2013-11-27",
-    responses: "23"
-    },
-    {
-    receive_date: "2013-11-28",
-    responses: "15"
-    },
-    {
-    receive_date: "2013-11-29",
-    responses: "21"
-    },
-    {
-    receive_date: "2013-11-30",
-    responses: "10"
-    }
-]
-
+let margin = {top: 20, right: 0, bottom: 30, left: 40}
+let width = 800 - (margin.left - margin.right);
+let height = 500 - (margin.top - margin.bottom);
 
 let svg = d3.select("#sketchpad")
   .append("svg")
-  .attr("width", 600)
-  .attr("height", 600)
+  .attr("width", 800)
+  .attr("height", 800)
 
-svg.append("circle")
-  .attr("cx", 150)
-  .attr("cy", 200)
-  .attr("r", 100)
-  .attr("fill", "blue")
+// Add canvas group and move the chart area 100px to the right
+let g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-svg.append("rect")
-  .attr("x", 200)
-  .attr("y", 0)
-  .attr("width", 250)
-  .attr("height", 100)
-  .attr("fill", "red")
+d3.json("data.json")
+  .then(data => { 
+    const value = data.map(letter => letter.value);
+    const x = d3.scaleBand().domain(data.map(d => d.name)).range([0, width]).paddingInner(0.1);
+    const y = d3.scaleLinear().domain([0, d3.max(value)]).nice().range([height - margin.bottom, margin.top])
+
+    // Set X Axis
+    let xAxis = d3.axisBottom(x);
+      g.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(xAxis)
+
+    // Set Y Axis
+    let yAxis = d3.axisLeft(y);
+      g.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+
+
+    //Set Chart Title
+    g.append("text")
+      .attr("class", "x axis label")
+      .attr("x", width / 2)
+      .attr("y", 0)
+      .attr("font-size", "28px")
+      .attr("text-anchor", "middle")
+      .text("Sample Bar Chart")
+
+    g.selectAll("rects").data(data).enter()
+      .append("rect")
+      .attr("x", d => x(d.name))
+      .attr("y", d => y(d.value))
+      .attr("width", x.bandwidth)
+      .attr("height", d => y(0) - y(d.value))
+      .attr("fill", "blue")
+  })
+
+
+  //ySFtT4oX1boE&5VwPl
