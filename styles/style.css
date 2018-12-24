@@ -9,12 +9,24 @@ html {
 
 h1 {
   font-size: 4rem;
-  text-align: center
+  text-align: center;
+  color: #fff;
+  text-shadow: 2px 2px 2px rgba(0,0,0,.5);
 }
 
 body {
-  padding: 3rem;
   max-width: 120rem;
   margin: 0 auto;
   font-family: Helvetica, sans-serif;
+}
+
+header {
+  padding: 3rem;
+  background: linear-gradient(135deg, #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%);
+  box-shadow: 2px 2px 2px rgba(0,0,0,.5);
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
 }

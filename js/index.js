@@ -14,12 +14,12 @@ d3.json("data.json")
   .then(data => { 
     const value = data.map(letter => letter.value);
     const x = d3.scaleBand().domain(data.map(d => d.name)).range([0, width]).paddingInner(0.1);
-    const y = d3.scaleLinear().domain([0, d3.max(value)]).nice().range([height - margin.bottom, margin.top])
+    const y = d3.scaleLinear().domain([0, d3.max(value)]).nice().range([height, 0])
 
     // Set X Axis
     let xAxis = d3.axisBottom(x);
       g.append("g")
-      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .attr("transform", `translate(0,${height})`)
       .call(xAxis)
 
     // Set Y Axis
@@ -31,19 +31,19 @@ d3.json("data.json")
 
     //Set Chart Title
     g.append("text")
-      .attr("class", "x axis label")
-      .attr("x", width / 2)
-      .attr("y", 0)
-      .attr("font-size", "28px")
-      .attr("text-anchor", "middle")
-      .text("Sample Bar Chart")
+    .attr("class", "x label")
+    .attr("x", width / 2)
+    .attr("y", height + margin.top * 3)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "30px")
+    .text("Simple Bar Chart")   
 
     g.selectAll("rects").data(data).enter()
       .append("rect")
       .attr("x", d => x(d.name))
       .attr("y", d => y(d.value))
       .attr("width", x.bandwidth)
-      .attr("height", d => y(0) - y(d.value))
+      .attr("height", d => height - y(d.value))
       .attr("fill", "blue")
   })
 
