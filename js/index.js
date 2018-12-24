@@ -1,5 +1,5 @@
-let margin = {top: 20, right: 0, bottom: 30, left: 40}
-let width = 800 - (margin.left - margin.right);
+let margin = {top: 60, right: 0, bottom: 30, left: 40}
+let width = 700 - margin.left;
 let height = 500 - (margin.top - margin.bottom);
 
 let svg = d3.select("#sketchpad")
@@ -13,7 +13,7 @@ let g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.to
 d3.json("data.json")
   .then(data => { 
     const value = data.map(letter => letter.value);
-    const x = d3.scaleBand().domain(data.map(d => d.name)).range([0, width]).paddingInner(0.1);
+    const x = d3.scaleBand().domain(data.map(d => d.name)).range([0, width+margin.left]).paddingInner(0.1);
     const y = d3.scaleLinear().domain([0, d3.max(value)]).nice().range([height, 0])
 
     // Set X Axis
@@ -33,7 +33,7 @@ d3.json("data.json")
     g.append("text")
     .attr("class", "x label")
     .attr("x", width / 2)
-    .attr("y", height + margin.top * 3)
+    .attr("y", height + margin.top)
     .attr("text-anchor", "middle")
     .attr("font-size", "30px")
     .text("Simple Bar Chart")   
